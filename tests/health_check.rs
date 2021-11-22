@@ -5,7 +5,7 @@
 #[actix_rt::test]
 async fn health_check_works() {
     //Arrange
-    spawn_app().await.expect("Failed to spawn app");
+    spawn_app();
     // We need to bring in `reqwest`
     // to perform HTTP requests against our application.
     let client = reqwest::Client::new();
@@ -22,6 +22,11 @@ async fn health_check_works() {
 }
 
 // Launch our application in the background
-async fn spawn_app() -> std::io::Result<()> {
-    devapi::run().await
+fn spawn_app() {
+    let server = devapi::run().expect("Failed to bind address");
+    // Launch the server as a background task
+    // tokio::spawn returns a handle to the spawned future,
+    // but we have no use for it here, hence the non-binding let
+    //
+    let _ = tokio::spawn(server);
 }
