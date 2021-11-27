@@ -1,6 +1,12 @@
 name: DEV Build
 
-on: [push, pull_request]
+on:
+  push:
+    # Sequence of patterns matched against refs/heads
+    branches-ignore:
+      # Do not push events to branches matching refs/heads/mona/octocat
+      - 'master'
+  pull_request:    
 
 env:
   CARGO_TERM_COLOR: always
