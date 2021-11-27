@@ -1,4 +1,4 @@
-name: Rust
+name: Build DevAPI
 on:
   # workflow_dispatch adds a manual trigger button in the github UI that allows
   # you to trigger builds on specific branches when you are in the page for
@@ -7,6 +7,8 @@ on:
   # push triggers this workflow on master
   # requests.
   push:
+    branches:
+      - main
     
 
 env:
