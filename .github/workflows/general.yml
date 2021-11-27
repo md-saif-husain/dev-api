@@ -1,4 +1,4 @@
-name: Rust
+name: DEV Build
 
 on: [push, pull_request]
 
@@ -14,7 +14,7 @@ jobs:
         image: postgres:12
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
+          POSTGRES_PASSWORD: test12345
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
@@ -98,7 +98,7 @@ jobs:
         image: postgres:12
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
+          POSTGRES_PASSWORD: test12345
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
@@ -154,7 +154,7 @@ jobs:
         image: postgres:12
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
+          POSTGRES_PASSWORD: test12345
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
