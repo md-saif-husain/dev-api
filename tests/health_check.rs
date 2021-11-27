@@ -1,4 +1,6 @@
 //! tests/health_check.rs
+use devapi::configuration::get_configuration;
+use sqlx::{Connection, PgConnection};
 use std::net::TcpListener;
 
 // You can inspect what code gets generated using
@@ -6,14 +8,15 @@ use std::net::TcpListener;
 #[actix_rt::test]
 async fn health_check_works() {
     //Arrange
-    let address = spawn_app();
+    let app_address = spawn_app();
+
     // We need to bring in `reqwest`
     // to perform HTTP requests against our application.
     let client = reqwest::Client::new();
 
     //Act
     let response = client
-        .get(&format!("{}/health_check", &address))
+        .get(&format!("{}/health_check", &app_address))
         .send()
         .await
         .expect("Failed to call health check endpoint");
@@ -26,6 +29,13 @@ async fn health_check_works() {
 async fn subscribe_return_200_for_valid_form_data() {
     //Arrange
     let app_address = spawn_app();
+    let configuration = get_configuration().expect("Failed");
+    let connection_string = configuration.database.connection_string();
+    // The `Connection` trait MUST be in scope for us to invoke
+    // `PgConnection::connect` - it is not an inherent method of the struct!
+    let mut connection = PgConnection::connect(&connection_string)
+        .await
+        .expect("Failed to connect to database");
     let client = reqwest::Client::new();
     let body = "name=saif&email=test124%40gmail.com";
 
@@ -39,6 +49,12 @@ async fn subscribe_return_200_for_valid_form_data() {
         .expect("Failed to execute request");
     //Assert
     assert_eq!(200, response.status().as_u16());
+    let saved = sqlx::query!("SELECT email, name from Subscriptions")
+        .fetch_one(&mut connection)
+        .await
+        .expect("Failed to query saved Subscription");
+    assert_eq!(saved.name, "saif");
+    assert_eq!(saved.email, "test124@gmail.com")
 }
 #[actix_rt::test]
 async fn subscribe_returns_a_400_when_data_is_missing() {
