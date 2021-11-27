@@ -1,8 +1,8 @@
+use devapi::configuration::{get_configuration, DatabaseSettings};
+use devapi::startup::run;
 use sqlx::{Connection, Executor, PgConnection, PgPool};
 use std::net::TcpListener;
 use uuid::Uuid;
-use devapi::configuration::{get_configuration, DatabaseSettings};
-use devapi::startup::run;
 
 pub struct TestApp {
     pub address: String,
