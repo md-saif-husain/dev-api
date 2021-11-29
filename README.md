@@ -6,4 +6,4 @@ rustup override set nightly
 // under `[dev-dependencies]` in Cargo.toml
 // Use `cargo add reqwest --dev --vers 0.11` to add
 // it under `[dev-dependencies]` in Cargo.toml
-curl -i -X POST -d 'email=thomas3_mann@hotmail.com&name=Tom3' http://127.0.0.1:8000/subscriptions
+curl -i -X POST -d 'email=thomas4_mann@hotmail.com&name=Tom4' http://127.0.0.1:8000/subscriptions
