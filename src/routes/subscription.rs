@@ -1,7 +1,6 @@
 use actix_web::{web, HttpResponse};
 use serde::Deserialize;
 use sqlx::PgPool;
-use uuid::Uuid;
 
 #[derive(Deserialize)]
 #[allow(dead_code)]
@@ -9,7 +8,7 @@ pub struct FormData {
     email: String,
     name: String,
 }
-
+#[allow(clippy::async_yields_async)]
 #[tracing:: instrument(
     name = "Adding a new subscriber",
     skip(form, pool),
