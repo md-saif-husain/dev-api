@@ -1,15 +1,12 @@
 name: Build
+
 on:
-  # workflow_dispatch adds a manual trigger button in the github UI that allows
-  # you to trigger builds on specific branches when you are in the page for
-  # this workflow.
-  workflow_dispatch:
-  # push triggers this workflow on master
-  # requests.
   push:
-    branches:
-      - main
-    
+    # Sequence of patterns matched against refs/heads
+    branches-ignore:
+      # Do not push events to branches matching refs/heads/mona/octocat
+      - 'master'
+  pull_request:    
 
 env:
   CARGO_TERM_COLOR: always
