@@ -5,6 +5,7 @@ use std::net::TcpListener;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    let port = std::env::var("PORT");
     let subscriber = get_subscriber("devapi".into(), "info".into(), std::io::stdout);
     init_subscriber(subscriber);
     let config = configuration::get_configuration().expect("Failed to read configuration");
@@ -14,7 +15,7 @@ async fn main() -> std::io::Result<()> {
         .connect(&connection_string)
         .await
         .expect("Failed to connect to Postgres.");
-    let address = format!("{}:{}", config.application.host, config.application.port);
+    let address = format!("{}:{}", config.application.host, port);
     let listener = TcpListener::bind(address).expect("Failed to bind random port");
     devapi::startup::run(listener, connection_pool)?.await
 }
