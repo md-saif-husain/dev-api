@@ -1,4 +1,9 @@
-targets
+.env
+target/
+tests/
+Dockerfile
+scripts/
+migrations/
 .github
 .thea
 .vscode

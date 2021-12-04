@@ -7,6 +7,7 @@ WORKDIR /app
 # Copy all files from our working environment to our Docker image
 COPY . .
 ENV SQLX_OFFLINE true
+ENV APP_ENVIRONMENT production
 # Let's build our binary!
 # We'll use the release profile to make it faaaast
 RUN cargo build --release
