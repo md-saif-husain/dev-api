@@ -5,7 +5,7 @@ use std::net::TcpListener;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let port = std::env::var("PORT");
+    let port = std::env::var("PORT").expect("PORT ENV not set");
     let subscriber = get_subscriber("devapi".into(), "info".into(), std::io::stdout);
     init_subscriber(subscriber);
     let config = configuration::get_configuration().expect("Failed to read configuration");
