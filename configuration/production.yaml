@@ -4,6 +4,6 @@ application:
 database:
   host: "/cloudsql/learn-rust-api:us-central1:rust-dev"
   port: 5342
-  username: "postgres"
-  password: "8llEuw4deLdcA9Ef"
+  username: "user1"
+  password: "Test123456"
   database_name: "newsletter"  
