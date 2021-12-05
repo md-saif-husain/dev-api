@@ -1,2 +1,9 @@
 application:
   host: 0.0.0.0
+  port: 8080
+database:
+  host: "/cloudsql/learn-rust-api:us-central1:rust-dev"
+  port: 5342
+  username: "postgres"
+  password: "8llEuw4deLdcA9Ef"
+  database_name: "newsletter"  
