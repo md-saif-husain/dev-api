@@ -22,9 +22,14 @@ pub async fn subscribe(form: web::Form<FormData>, pool: web::Data<PgPool>) -> Ht
     // `web::Form` is a wrapper around `FormData`
     // `form.0` gives us access to the underlying `FormData`
 
+    let name = match SubscriberName::parse(form.0.name) {
+        Ok(name) => name,
+        Err(_) => return HttpResponse::BadRequest().finish(),
+    };
+
     let new_subscriber = NewSubscriber {
         email: form.0.email,
-        name: SubscriberName::parse(form.0.name).expect("Name validation failed"),
+        name: name,
     };
     // `Result` has two variants: `Ok` and `Err`.
     // The first for successes, the second for failures.
