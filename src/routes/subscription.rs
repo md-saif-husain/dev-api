@@ -29,7 +29,7 @@ pub async fn subscribe(form: web::Form<FormData>, pool: web::Data<PgPool>) -> Ht
 
     let new_subscriber = NewSubscriber {
         email: form.0.email,
-        name: name,
+        name,
     };
     // `Result` has two variants: `Ok` and `Err`.
     // The first for successes, the second for failures.
