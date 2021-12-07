@@ -22,12 +22,6 @@ impl AsRef<str> for SubscriberName {
         &self.0
     }
 }
-
-pub struct NewSubscriber {
-    pub name: SubscriberName,
-    pub email: String,
-}
-
 #[cfg(test)]
 mod tests {
     use crate::domain::SubscriberName;
