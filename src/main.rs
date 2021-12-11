@@ -1,4 +1,5 @@
 use devapi::configuration;
+use devapi::email_client::EmailClient;
 use devapi::telemetry::{get_subscriber, init_subscriber};
 use sqlx::postgres::PgPoolOptions;
 use std::net::TcpListener;
@@ -13,5 +14,11 @@ async fn main() -> std::io::Result<()> {
         .connect_lazy_with(config.database.with_db());
     let address = format!("{}:{}", config.application.host, config.application.port);
     let listener = TcpListener::bind(address).expect("Failed to bind random port");
-    devapi::startup::run(listener, connection_pool)?.await
+    let sender_email = config
+        .email_client
+        .sender()
+        .expect("Failed to get sender email");
+    let email_client = EmailClient::new(config.email_client.base_url, sender_email);
+    devapi::startup::run(listener, connection_pool, email_client)?.await?;
+    Ok(())
 }

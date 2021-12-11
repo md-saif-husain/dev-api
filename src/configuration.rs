@@ -1,3 +1,4 @@
+use crate::domain::SubscriberEmail;
 use config::{Config, ConfigError, File};
 use serde::Deserialize;
 use serde_aux::field_attributes::deserialize_number_from_string;
@@ -8,6 +9,18 @@ use std::convert::{TryFrom, TryInto};
 pub struct Settings {
     pub database: DatabaseSettings,
     pub application: ApplicationSettings,
+    pub email_client: EmailSettings,
+}
+
+#[derive(Deserialize)]
+pub struct EmailSettings {
+    pub base_url: String,
+    pub sender_email: String,
+}
+impl EmailSettings {
+    pub fn sender(&self) -> Result<SubscriberEmail, String> {
+        SubscriberEmail::parse(self.sender_email.clone())
+    }
 }
 
 #[derive(Deserialize)]

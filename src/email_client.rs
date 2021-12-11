@@ -12,7 +12,7 @@ impl EmailClient {
         Self {
             http_client: Client::new(),
             base_url,
-            sender
+            sender,
         }
     }
     pub fn send_email(

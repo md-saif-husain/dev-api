@@ -1,4 +1,5 @@
 use devapi::configuration::{get_configuration, DatabaseSettings};
+use devapi::email_client::EmailClient;
 use devapi::startup::run;
 use devapi::telemetry::{get_subscriber, init_subscriber};
 use once_cell::sync::Lazy;
@@ -37,8 +38,14 @@ async fn spawn_app() -> TestApp {
     let mut configuration = get_configuration().expect("Failed to read configuration.");
     configuration.database.database_name = Uuid::new_v4().to_string();
     let connection_pool = configure_database(&configuration.database).await;
+    let sender_email = configuration
+        .email_client
+        .sender()
+        .expect("Failed to get sender email");
+    let email_client = EmailClient::new(configuration.email_client.base_url, sender_email);
 
-    let server = run(listener, connection_pool.clone()).expect("Failed to bind address");
+    let server =
+        run(listener, connection_pool.clone(), email_client).expect("Failed to bind address");
     let _ = tokio::spawn(server);
     TestApp {
         address,

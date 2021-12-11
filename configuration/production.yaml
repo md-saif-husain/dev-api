@@ -6,4 +6,10 @@ database:
   port: 5432
   username: "postgres"
   password: "8llEuw4deLdcA9Ef"
-  database_name: "newsletter"  
+  database_name: "newsletter"
+email_client:
+# Value retrieved from Postmark's API documentation
+base_url: "https://api.postmarkapp.com"
+# Use the single sender email you authorised on Postmark!
+sender_email: "saif.husain@experian.com"
+    
