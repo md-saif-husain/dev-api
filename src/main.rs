@@ -18,7 +18,11 @@ async fn main() -> std::io::Result<()> {
         .email_client
         .sender()
         .expect("Failed to get sender email");
-    let email_client = EmailClient::new(config.email_client.base_url, sender_email);
+    let email_client = EmailClient::new(
+        config.email_client.base_url,
+        sender_email,
+        config.email_client.authorization_token,
+    );
     devapi::startup::run(listener, connection_pool, email_client)?.await?;
     Ok(())
 }

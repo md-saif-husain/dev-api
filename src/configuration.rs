@@ -16,6 +16,7 @@ pub struct Settings {
 pub struct EmailSettings {
     pub base_url: String,
     pub sender_email: String,
+    pub authorization_token: String,
 }
 impl EmailSettings {
     pub fn sender(&self) -> Result<SubscriberEmail, String> {
