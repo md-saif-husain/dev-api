@@ -1,0 +1,22 @@
+name: ZapScan
+# Controls when the workflow will run
+on:
+  workflow_dispatch:
+
+jobs:
+  owaspscan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scan for OWASP
+        uses: zaproxy/action-baseline@v0.3.0
+        with:
+          # GitHub Token to create issues in the repository
+          token: ${{ secrets.ZAP_SCAN_ISSUE_TOKEN }}
+          # Target URL
+          target: https://learn-rust-api-lah4xkm26a-uc.a.run.app/
+          # Relative path of the ZAP configuration file
+          # rules_file_name: # optional
+          # The Docker file to be executed
+          # docker_name: # default is owasp/zap2docker-stable
+          # Additional command line options
+          # cmd_options: # optional   
