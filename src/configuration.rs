@@ -1,5 +1,6 @@
 use crate::domain::SubscriberEmail;
 use config::{Config, ConfigError, File};
+use secrecy::{ExposeSecret, Secret};
 use serde::Deserialize;
 use serde_aux::field_attributes::deserialize_number_from_string;
 use sqlx::postgres::PgConnectOptions;
@@ -16,7 +17,7 @@ pub struct Settings {
 pub struct EmailSettings {
     pub base_url: String,
     pub sender_email: String,
-    pub authorization_token: String,
+    pub authorization_token: Secret<String>,
 }
 impl EmailSettings {
     pub fn sender(&self) -> Result<SubscriberEmail, String> {
@@ -34,7 +35,7 @@ pub struct ApplicationSettings {
 #[derive(Deserialize)]
 pub struct DatabaseSettings {
     pub username: String,
-    pub password: String,
+    pub password: Secret<String>,
     #[serde(deserialize_with = "deserialize_number_from_string")]
     pub port: u16,
     pub host: String,
@@ -47,7 +48,7 @@ impl DatabaseSettings {
         PgConnectOptions::new()
             .host(&self.host)
             .username(&self.username)
-            .password(&self.password)
+            .password(&self.password.expose_secret())
             .port(self.port)
     }
     // Renamed from `connection_string`
